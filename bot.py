@@ -18,13 +18,9 @@ async def handle_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not file:
         return
 
-    # Get file info
     tg_file = await context.bot.get_file(file.file_id)
-
-    # Build direct link
     direct_link = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{tg_file.file_path}"
 
-    # Send link to channel
     await context.bot.send_message(
         chat_id=message.chat_id,
         text=f"🎬 Direct Link:\n{direct_link}"
@@ -32,8 +28,6 @@ async def handle_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 if __name__ == "__main__":
     app = ApplicationBuilder().token(BOT_TOKEN).build()
-
     app.add_handler(MessageHandler(filters.VIDEO | filters.Document.VIDEO, handle_video))
-
     print("Bot is running...")
     app.run_polling()
